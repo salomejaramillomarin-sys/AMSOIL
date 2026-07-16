@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AMSOIL</title>
+  <link rel="stylesheet" href="css/principal.css" />
+  <link rel="stylesheet" href="css/productos.css" />
+  <link rel="stylesheet" href="css/agregarprod.css" />
+  <link rel="stylesheet" href="css/crearfac.css" />
+  <link rel="stylesheet" href="css/eliminar.css" />
+  <link rel="stylesheet" href="css/ajustes.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="navbar__logo">
+      <img src="font/amsoil.png" alt="AMSOIL Logo">
+    </div>
+
+    <nav class="navbar__nav">
+      <button class="nav-btn nav-btn--active" data-view="productos">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73L13 2.27a2 2 0 0 0-2 0L4 6.27A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l6 3.46a2 2 0 0 0 2 0l6-3.46A2 2 0 0 0 21 16z"/></svg>
+        Productos
+      </button>
+      <button class="nav-btn" data-view="historial">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Historial
+      </button>
+      <a class="nav-btn" href="crearfac.html">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        Crear Factura
+      </a>
+      <button class="nav-btn" data-view="agregar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Agregar Producto
+      </button>
+      <button class="nav-btn" data-view="eliminar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        Eliminar Producto
+      </button>
+      <button class="nav-btn" data-view="ajustes">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        ajustes
+      </button>
+    </nav>
+  </header>
+
+  <main class="page-content">
+    <section id="view-productos" class="view-panel active">
+      <div class="search-container">
+        <input type="text" id="products-search" placeholder="Buscar por código de producto..." class="search-input" />
+      </div>
+
+      <div class="filter-container">
+        <button class="filter-btn active" data-filter="todos">Todo</button>
+        <button class="filter-btn" data-filter="cod-reciclaje">Código para reciclaje</button>
+        <button class="filter-btn" data-filter="petroleo">Petróleo sin reciclaje</button>
+        <button class="filter-btn" data-filter="grasa">Grasa lubricante</button>
+        <button class="filter-btn" data-filter="ivu">IVU</button>
+      </div>
+
+      <div class="products-table-wrapper active" id="panel-todos">
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>CÓDIGO</th>
+              <th>COSTO POR UND.</th>
+              <th>COD. PARA RECICLAJE</th>
+              <th>DERIV. DE PETROLEO SIN RECICLAJE</th>
+              <th>COD. GRASA LUBRICANTE</th>
+              <th>IVU</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-todos"></tbody>
+        </table>
+      </div>
+
+      <div class="products-table-wrapper" id="panel-cod-reciclaje">
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>CÓDIGO</th>
+              <th>COSTO POR UND.</th>
+              <th>COD. PARA RECICLAJE</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-cod-reciclaje"></tbody>
+        </table>
+      </div>
+
+      <div class="products-table-wrapper" id="panel-petroleo">
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>CÓDIGO</th>
+              <th>COSTO POR UND.</th>
+              <th>DERIV. DE PETROLEO SIN RECICLAJE</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-petroleo"></tbody>
+        </table>
+      </div>
+
+      <div class="products-table-wrapper" id="panel-grasa">
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>CÓDIGO</th>
+              <th>COSTO POR UND.</th>
+              <th>COD. GRASA LUBRICANTE</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-grasa"></tbody>
+        </table>
+      </div>
+
+      <div class="products-table-wrapper" id="panel-ivu">
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>CÓDIGO</th>
+              <th>COSTO POR UND.</th>
+              <th>IVU</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-ivu"></tbody>
+        </table>
+      </div>
+    </section>
+
+   <section id="view-historial" class="view-panel">
+      <div class="historial-header">
+        <h2 class="historial-title">Historial de Facturas</h2>
+      </div>
+
+      <div class="search-container">
+        <input type="text" id="historial-search" placeholder="Buscar por fecha (ej: 7 jul 2026)..." class="search-input" />
+      </div>
+
+      <div id="historial-lista" class="historial-lista"></div>
+    </section>
+
+    <section id="view-agregar" class="view-panel view-panel--form">
+      <div class="form-page">
+        <div class="form-container">
+          <h2>Registrar Nuevo Producto</h2>
+
+          <label>Código:</label>
+          <input type="text" id="codigo" placeholder="Ej: AMSOIL-001" />
+
+          <label>Categoría:</label>
+          <div class="category-options" id="categoriaSeleccionada">
+            <button class="cat-btn" type="button" onclick="seleccionarCat('Cod. para reciclaje')">Cod. para reciclaje</button>
+            <button class="cat-btn" type="button" onclick="seleccionarCat('Deriv. petroleo sin reciclaje')">Deriv. petroleo sin reciclaje</button>
+            <button class="cat-btn" type="button" onclick="seleccionarCat('Cod. grasa lubricante')">Cod. grasa lubricante</button>
+            <button class="cat-btn" type="button" onclick="seleccionarCat('IVU')">IVU</button>
+          </div>
+
+          <label>Factor Multiplicativo:</label>
+          <input type="number" id="factor" placeholder="10" />
+
+          <label>Costo por Unidad:</label>
+          <input type="number" id="costo" placeholder="0.00" />
+
+          <button class="save-btn" type="button" onclick="guardarProducto()">Guardar Producto</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-eliminar" class="view-panel view-panel--form">
+      <div class="form-page">
+        <div class="form-container">
+          <h2>Eliminar Producto</h2>
+
+          <label>Código del Producto a Eliminar:</label>
+          <input type="text" id="codigoEliminar" placeholder="Ej: AMSOIL-001" />
+
+          <button class="delete-btn" type="button" onclick="eliminarProducto()">Eliminar Producto</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-ajustes" class="view-panel view-panel--form">
+      <div class="form-page">
+        <div class="form-container">
+          <h2>Ajustes</h2>
+
+          <label>Idioma</label>
+          <select name="idioma" id="idioma">
+            <option value="EN">Ingles</option>
+            <option value="ES">Español</option>
+          </select>
+
+          <label>Pais</label>
+          <select name="pais" id="pais">
+            <option value="CR">Costa Rica</option>
+            <option value="RD">Republica Dominicana</option>
+            <option value="PR">Puerto Rico</option>
+            <option value="US">Estados Unidos</option>
+          </select> 
+
+          <div class="btn-ajustes">
+            <button class="btn-guardar-ajustes">Guardar Ajustes</button>
+          </div> 
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal-historial" class="modal">
+    <div class="modal-content modal-content--ancho">
+      <div class="modal-historial-header">
+        <h2 id="historial-modal-fecha">Factura</h2>
+        <button type="button" class="btn-cerrar-x" onclick="cerrarFacturaModal()">✕</button>
+      </div>
+      <div class="factura-table-wrapper">
+        <table class="factura-table">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Cant.</th>
+              <th>Cod. Reciclaje</th>
+              <th>Deriv. Petróleo</th>
+              <th>Cod. Grasa</th>
+              <th>IVU</th>
+              <th>Costo</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody id="historial-modal-cuerpo"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="wave-container">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" height="120">
+      <path d="M0,80 C360,140 720,20 1440,90 L1440,120 L0,120 Z" fill="#C8102E"/>
+      <path d="M0,100 C400,60 900,130 1440,80 L1440,120 L0,120 Z" fill="#003087" opacity="0.85"/>
+    </svg>
+  </div>
+
+  <div class="modal-overlay" id="success-modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-icon">✓</div>
+      <h3 id="modal-title">Producto guardado</h3>
+      <p>El producto se agregó correctamente a la tabla.</p>
+      <button class="modal-btn" id="close-modal-btn" type="button">Aceptar</button>
+    </div>
+  </div>
+
+
+  <script src="js/main.js"></script>
+</body>
+</html>

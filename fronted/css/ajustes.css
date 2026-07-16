@@ -1,0 +1,31 @@
+
+#idioma{
+    height: 30px;
+    width: 100px;
+    background-color: rgb(229, 229, 250);
+    border-radius: 10cap; 
+}
+
+
+#pais{
+    height: 30px;
+    width: 180px;
+    background-color: rgb(229, 229, 250);
+    border-radius: 10cap; 
+}
+
+.btn-guardar-ajustes{
+    width: 100%;
+    padding: 12px;
+    background: #C8102E;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    margin-top: 30px;
+}
+
+.btn-guardar-ajustes:hover {
+  background: #A50E24;
+}
