@@ -1,5 +1,9 @@
-# Node
-backend/node_modules/
+# Python / Django
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/*.sqlite3
+backend/staticfiles/
 
 # Variables de entorno
 backend/.env

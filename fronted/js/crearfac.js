@@ -1,5 +1,4 @@
 const FACTURA_DRAFT_KEY = "amsoil_factura_draft";
-const FACTURAS_KEY = "amsoil_facturas";
 
 let filasFactura = cargarBorrador();
 
@@ -78,7 +77,9 @@ function buscarProducto() {
     document.getElementById("msg-no-encontrado").classList.remove("is-visible");
 }
 
-function procesarProducto() {
+async function procesarProducto() {
+    await productosPromise;
+
     const codigo = normalizeText(document.getElementById("input-codigo")?.value);
     const producto = productos.find((p) => normalizeText(p.codigo) === codigo);
 
@@ -113,46 +114,25 @@ function procesarProducto() {
     cerrarModal();
 }
 
-function guardarFactura() {
+async function guardarFactura() {
     if (filasFactura.length === 0) {
         alert("Agrega al menos un producto antes de guardar la factura.");
         return;
     }
 
-    const ahora = new Date();
-    const fechaHoraTexto = new Intl.DateTimeFormat("es-DO", {
-        timeZone: "America/Santo_Domingo",
-        dateStyle: "medium",
-        timeStyle: "medium"
-    }).format(ahora);
-
-    const facturas = cargarFacturasGuardadas();
-    facturas.push({
-        id: Date.now().toString(),
-        fechaHora: fechaHoraTexto,
-        timestamp: ahora.getTime(),
-        filas: filasFactura
-    });
+    const lineas = filasFactura.map((fila) => ({ codigo: fila.codigo, cantidad: fila.cantidad }));
 
     try {
-        localStorage.setItem(FACTURAS_KEY, JSON.stringify(facturas));
+        await api.crearFactura(lineas);
     } catch (e) {
-        console.error("No se pudo guardar la factura:", e);
+        alert(e.message);
+        return;
     }
 
     filasFactura = [];
     guardarBorrador();
     renderTablaFactura();
     mostrarToastGuardado();
-}
-
-function cargarFacturasGuardadas() {
-    try {
-        const data = localStorage.getItem(FACTURAS_KEY);
-        return data ? JSON.parse(data) : [];
-    } catch (e) {
-        return [];
-    }
 }
 
 function mostrarToastGuardado() {
