@@ -94,7 +94,8 @@ function procesarProducto() {
         return;
     }
 
-    const costo = (cantidad * Number(producto.costo)).toFixed(2);
+    const costoUnitario = Number(producto.costo).toFixed(2);
+    const total = (cantidad * Number(producto.costo)).toFixed(2);
 
     filasFactura.push({
         codigo: producto.codigo,
@@ -103,8 +104,8 @@ function procesarProducto() {
         petroleo: producto.categoria === "petroleo" ? (cantidad * Number(producto.factor)) : "-",
         grasa: producto.categoria === "grasa" ? (cantidad * Number(producto.factor)) : "-",
         ivu: producto.categoria === "ivu" ? (cantidad * Number(producto.factor)) : "-",
-        costo,
-        total: "-"
+        costo: costoUnitario,
+        total
     });
 
     guardarBorrador();

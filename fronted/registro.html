@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Personal - Amsoil</title>
 
-    <link rel="stylesheet" href="../css/registro.css">
+    <link rel="stylesheet" href="css/registro.css">
 
     <!-- Iconos -->
-    <link rel="stylesheet" href="../font/https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 <body>
@@ -19,7 +19,7 @@
         <div class="logo">
 
             <!-- Cambia la ruta por la de tu logo -->
-            <img src="amsoil.png" alt="AMSOIL Logo">
+            <img src="font/amsoil.png" alt="AMSOIL Logo">
 
             <div class="linea"></div>
 
@@ -58,6 +58,7 @@
                 <div class="input-box">
                     <i class="fa-regular fa-user"></i>
                     <input
+                        id="codigo"
                         type="text"
                         name="codigo"
                         placeholder="Ingrese su código"
@@ -69,12 +70,13 @@
                 <div class="input-box">
                     <i class="fa-solid fa-lock"></i>
                     <input
+                        id="password"
                         type="password"
                         name="password"
                         placeholder="Ingrese su contraseña"
                         required>
 
-                    <i class="fa-regular fa-eye"></i>
+                    <i class="fa-regular fa-eye" id="togglePassword"></i>
 
                 </div>
 

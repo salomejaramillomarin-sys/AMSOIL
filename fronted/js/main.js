@@ -4,8 +4,8 @@ if (formulario) {
     formulario.addEventListener("submit", function(event) {
         event.preventDefault();
 
-        const codigo = document.getElementById("codigo")?.value.trim();
-        const password = document.getElementById("password")?.value.trim();
+        const codigo = document.getElementById("codigo")?.value.trim() || "";
+        const password = document.getElementById("password")?.value.trim() || "";
 
         if (codigo === "" || password === "") {
             alert("Debe ingresar el código y la contraseña.");
@@ -13,6 +13,19 @@ if (formulario) {
         }
 
         window.location.href = "principal.html";
+    });
+}
+
+const togglePasswordBtn = document.getElementById("togglePassword");
+const passwordInput = document.getElementById("password");
+
+if (togglePasswordBtn && passwordInput) {
+    togglePasswordBtn.style.cursor = "pointer";
+    togglePasswordBtn.addEventListener("click", () => {
+        const isHidden = passwordInput.type === "password";
+        passwordInput.type = isHidden ? "text" : "password";
+        togglePasswordBtn.classList.toggle("fa-eye", !isHidden);
+        togglePasswordBtn.classList.toggle("fa-eye-slash", isHidden);
     });
 }
 
@@ -51,6 +64,11 @@ const productsSearch = document.getElementById("products-search");
 const productsTableWrappers = document.querySelectorAll(".products-table-wrapper");
 const successModal = document.getElementById("success-modal");
 const closeModalBtn = document.getElementById("close-modal-btn");
+
+const HISTORIAL_KEY = "amsoil_facturas";
+const historialLista = document.getElementById("historial-lista");
+const modalHistorial = document.getElementById("modal-historial");
+const historialSearch = document.getElementById("historial-search");
 
 let currentFilter = "todos";
 let productos = cargarProductosStorage();
@@ -285,10 +303,6 @@ function eliminarProducto() {
     alert("Producto eliminado correctamente.");
 }
 
-const HISTORIAL_KEY = "amsoil_facturas";
-const historialLista = document.getElementById("historial-lista");
-const modalHistorial = document.getElementById("modal-historial");
-
 function cargarFacturasHistorial() {
     try {
         const data = localStorage.getItem(HISTORIAL_KEY);
@@ -300,7 +314,10 @@ function cargarFacturasHistorial() {
 
 function renderHistorial() {
     if (!historialLista) return;
-    const facturas = cargarFacturasHistorial().sort((a, b) => b.timestamp - a.timestamp);
+    const searchTerm = (historialSearch?.value || "").trim().toLowerCase();
+    const facturas = cargarFacturasHistorial()
+        .sort((a, b) => b.timestamp - a.timestamp)
+        .filter((factura) => !searchTerm || factura.fechaHora.toLowerCase().includes(searchTerm));
 
     if (facturas.length === 0) {
         historialLista.innerHTML = '<p class="historial-vacio">Aún no hay facturas guardadas.</p>';
@@ -355,4 +372,41 @@ if (modalHistorial) {
     modalHistorial.addEventListener("click", (event) => {
         if (event.target === modalHistorial) cerrarFacturaModal();
     });
+}
+
+if (historialSearch) {
+    historialSearch.addEventListener("input", renderHistorial);
+}
+
+const AJUSTES_KEY = "amsoil_ajustes";
+const idiomaSelect = document.getElementById("idioma");
+const paisSelect = document.getElementById("pais");
+
+function cargarAjustes() {
+    try {
+        const data = localStorage.getItem(AJUSTES_KEY);
+        return data ? JSON.parse(data) : null;
+    } catch (e) {
+        return null;
+    }
+}
+
+const ajustesGuardados = cargarAjustes();
+if (ajustesGuardados) {
+    if (idiomaSelect && ajustesGuardados.idioma) idiomaSelect.value = ajustesGuardados.idioma;
+    if (paisSelect && ajustesGuardados.pais) paisSelect.value = ajustesGuardados.pais;
+}
+
+function guardarAjustes() {
+    const ajustes = {
+        idioma: idiomaSelect?.value,
+        pais: paisSelect?.value
+    };
+
+    try {
+        localStorage.setItem(AJUSTES_KEY, JSON.stringify(ajustes));
+        alert("Ajustes guardados correctamente.");
+    } catch (e) {
+        console.error("No se pudieron guardar los ajustes:", e);
+    }
 }

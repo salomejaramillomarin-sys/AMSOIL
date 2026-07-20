@@ -3,7 +3,7 @@
     height: 30px;
     width: 100px;
     background-color: rgb(229, 229, 250);
-    border-radius: 10cap; 
+    border-radius: 10px;
 }
 
 
@@ -11,7 +11,7 @@
     height: 30px;
     width: 180px;
     background-color: rgb(229, 229, 250);
-    border-radius: 10cap; 
+    border-radius: 10px;
 }
 
 .btn-guardar-ajustes{
