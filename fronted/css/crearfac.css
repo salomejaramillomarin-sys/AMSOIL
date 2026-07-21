@@ -19,6 +19,27 @@
     font-size: 0.9rem;
 }
 
+.factura-empleado {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.factura-empleado label {
+    font-weight: 600;
+    color: #003087;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.factura-empleado input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    min-width: 200px;
+}
+
 .btn-agregar-prod {
     display: flex;
     align-items: center;
@@ -285,6 +306,12 @@
     font-weight: 700;
     color: #003087;
     font-size: 1rem;
+}
+
+.historial-card__empleado {
+    color: #C8102E;
+    font-size: 0.85rem;
+    font-weight: 600;
 }
 
 .historial-card__cantidad {

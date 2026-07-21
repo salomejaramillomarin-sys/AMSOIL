@@ -351,6 +351,7 @@ function renderHistorial() {
         card.className = "historial-card";
         card.innerHTML = `
             <span class="historial-card__fecha">${formatFechaHora(factura.fecha_hora)}</span>
+            <span class="historial-card__empleado">${factura.empleado || "-"}</span>
             <span class="historial-card__cantidad">${factura.lineas.length} producto(s)</span>
         `;
         card.addEventListener("click", () => abrirFacturaHistorial(factura));
@@ -363,7 +364,7 @@ function abrirFacturaHistorial(factura) {
     const tbody = document.getElementById("historial-modal-cuerpo");
     if (!titulo || !tbody || !modalHistorial) return;
 
-    titulo.textContent = formatFechaHora(factura.fecha_hora);
+    titulo.textContent = `${formatFechaHora(factura.fecha_hora)} — Atendió: ${factura.empleado || "-"}`;
     tbody.innerHTML = "";
 
     factura.lineas.forEach((item) => {

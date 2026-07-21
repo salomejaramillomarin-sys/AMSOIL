@@ -50,7 +50,7 @@ class FacturaLineaInline(admin.TabularInline):
 
 @admin.register(Factura)
 class FacturaAdmin(admin.ModelAdmin):
-    list_display = ["id", "fecha_hora", "usuario"]
+    list_display = ["id", "empleado", "fecha_hora", "usuario"]
     inlines = [FacturaLineaInline]
 
 

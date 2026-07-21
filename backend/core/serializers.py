@@ -67,7 +67,7 @@ class FacturaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Factura
-        fields = ["id", "fecha_hora", "lineas"]
+        fields = ["id", "empleado", "fecha_hora", "lineas"]
 
 
 class FacturaLineaInputSerializer(serializers.Serializer):
@@ -76,7 +76,14 @@ class FacturaLineaInputSerializer(serializers.Serializer):
 
 
 class FacturaCreateSerializer(serializers.Serializer):
+    empleado = serializers.CharField(max_length=100)
     lineas = FacturaLineaInputSerializer(many=True)
+
+    def validate_empleado(self, value):
+        value = value.strip()
+        if not value:
+            raise serializers.ValidationError("Ingresa el nombre del empleado que atendió.")
+        return value
 
     def validate_lineas(self, value):
         if not value:
@@ -96,7 +103,7 @@ class FacturaCreateSerializer(serializers.Serializer):
                 {"lineas": f"Producto(s) no encontrado(s): {', '.join(sorted(set(faltantes)))}"}
             )
 
-        factura = Factura.objects.create(usuario=usuario)
+        factura = Factura.objects.create(usuario=usuario, empleado=validated_data["empleado"])
 
         lineas_a_crear = []
         for linea, codigo in zip(validated_data["lineas"], codigos):

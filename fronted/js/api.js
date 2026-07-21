@@ -76,7 +76,7 @@ const api = {
     crearProducto: (producto) => apiRequest("/productos/", { method: "POST", body: producto }),
     eliminarProducto: (codigo) => apiRequest(`/productos/${encodeURIComponent(codigo)}/`, { method: "DELETE" }),
     getFacturas: () => apiRequest("/facturas/"),
-    crearFactura: (lineas) => apiRequest("/facturas/", { method: "POST", body: { lineas } }),
+    crearFactura: (lineas, empleado) => apiRequest("/facturas/", { method: "POST", body: { lineas, empleado } }),
     getAjustes: () => apiRequest("/ajustes/"),
     guardarAjustes: (ajustes) => apiRequest("/ajustes/", { method: "PUT", body: ajustes }),
 };

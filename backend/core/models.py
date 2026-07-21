@@ -95,6 +95,7 @@ class Factura(models.Model):
         blank=True,
         related_name="facturas",
     )
+    empleado = models.CharField(max_length=100, blank=True, default="")
     fecha_hora = models.DateTimeField(auto_now_add=True)
 
     class Meta:

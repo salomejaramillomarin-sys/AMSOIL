@@ -1,4 +1,5 @@
 const FACTURA_DRAFT_KEY = "amsoil_factura_draft";
+const EMPLEADO_DRAFT_KEY = "amsoil_factura_empleado_draft";
 
 let filasFactura = cargarBorrador();
 
@@ -18,6 +19,16 @@ function guardarBorrador() {
         console.error("No se pudo guardar el borrador:", e);
     }
 }
+
+function cargarEmpleadoBorrador() {
+    const input = document.getElementById("input-empleado");
+    if (!input) return;
+    input.value = localStorage.getItem(EMPLEADO_DRAFT_KEY) || "";
+    input.addEventListener("input", () => {
+        localStorage.setItem(EMPLEADO_DRAFT_KEY, input.value);
+    });
+}
+cargarEmpleadoBorrador();
 
 function renderTablaFactura() {
     const tbody = document.getElementById("cuerpo-factura");
@@ -115,6 +126,13 @@ async function procesarProducto() {
 }
 
 async function guardarFactura() {
+    const empleado = document.getElementById("input-empleado")?.value.trim() || "";
+
+    if (!empleado) {
+        alert("Ingresa el nombre del empleado que atendió.");
+        return;
+    }
+
     if (filasFactura.length === 0) {
         alert("Agrega al menos un producto antes de guardar la factura.");
         return;
@@ -123,7 +141,7 @@ async function guardarFactura() {
     const lineas = filasFactura.map((fila) => ({ codigo: fila.codigo, cantidad: fila.cantidad }));
 
     try {
-        await api.crearFactura(lineas);
+        await api.crearFactura(lineas, empleado);
     } catch (e) {
         alert(e.message);
         return;
@@ -132,6 +150,10 @@ async function guardarFactura() {
     filasFactura = [];
     guardarBorrador();
     renderTablaFactura();
+
+    document.getElementById("input-empleado").value = "";
+    localStorage.removeItem(EMPLEADO_DRAFT_KEY);
+
     mostrarToastGuardado();
 }
 
