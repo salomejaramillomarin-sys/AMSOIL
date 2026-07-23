@@ -1,18 +1,18 @@
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+export const API_BASE_URL = "http://127.0.0.1:8000/api";
 
 const TOKEN_KEY = "amsoil_token";
 const USUARIO_KEY = "amsoil_usuario";
 
-function getToken() {
+export function getToken() {
     return localStorage.getItem(TOKEN_KEY);
 }
 
-function guardarSesion(token, usuario) {
+export function guardarSesion(token, usuario) {
     localStorage.setItem(TOKEN_KEY, token);
     localStorage.setItem(USUARIO_KEY, JSON.stringify(usuario));
 }
 
-function obtenerUsuarioSesion() {
+export function obtenerUsuarioSesion() {
     try {
         const data = localStorage.getItem(USUARIO_KEY);
         return data ? JSON.parse(data) : null;
@@ -21,7 +21,7 @@ function obtenerUsuarioSesion() {
     }
 }
 
-function cerrarSesion() {
+export function cerrarSesion() {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USUARIO_KEY);
 }
@@ -44,8 +44,8 @@ async function apiRequest(path, { method = "GET", body } = {}) {
 
     if (response.status === 401) {
         cerrarSesion();
-        if (!window.location.pathname.endsWith("registro.html")) {
-            window.location.href = "registro.html";
+        if (window.location.pathname !== "/") {
+            window.location.href = "/";
         }
         throw new Error("Sesión expirada. Inicia sesión de nuevo.");
     }
@@ -70,7 +70,7 @@ async function apiRequest(path, { method = "GET", body } = {}) {
     return data;
 }
 
-const api = {
+export const api = {
     login: (codigo, password) => apiRequest("/auth/login/", { method: "POST", body: { codigo, password } }),
     getProductos: () => apiRequest("/productos/"),
     crearProducto: (producto) => apiRequest("/productos/", { method: "POST", body: producto }),
@@ -80,3 +80,15 @@ const api = {
     getAjustes: () => apiRequest("/ajustes/"),
     guardarAjustes: (ajustes) => apiRequest("/ajustes/", { method: "PUT", body: ajustes }),
 };
+
+export function normalizeText(value) {
+    return (value || "").toString().trim().toUpperCase();
+}
+
+export function formatFechaHora(isoString) {
+    return new Intl.DateTimeFormat("es-DO", {
+        timeZone: "America/Santo_Domingo",
+        dateStyle: "medium",
+        timeStyle: "medium",
+    }).format(new Date(isoString));
+}
