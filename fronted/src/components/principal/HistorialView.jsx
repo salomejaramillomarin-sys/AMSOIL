@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { formatFechaHora } from "../../api";
 
-export default function HistorialView({ facturas, onSelect }) {
+export default function HistorialView({ facturas, onSelect, onDelete }) {
     const [search, setSearch] = useState("");
 
     const filtradas = useMemo(() => {
@@ -32,16 +32,25 @@ export default function HistorialView({ facturas, onSelect }) {
                     <p className="historial-vacio">Aún no hay facturas guardadas.</p>
                 ) : (
                     filtradas.map((factura) => (
-                        <button
-                            key={factura.id}
-                            type="button"
-                            className="historial-card"
-                            onClick={() => onSelect(factura)}
-                        >
-                            <span className="historial-card__fecha">{formatFechaHora(factura.fecha_hora)}</span>
-                            <span className="historial-card__empleado">{factura.empleado || "-"}</span>
-                            <span className="historial-card__cantidad">{factura.lineas.length} producto(s)</span>
-                        </button>
+                        <div key={factura.id} className="historial-card">
+                            <button
+                                type="button"
+                                className="historial-card__info"
+                                onClick={() => onSelect(factura)}
+                            >
+                                <span className="historial-card__fecha">{formatFechaHora(factura.fecha_hora)}</span>
+                                <span className="historial-card__empleado">{factura.empleado || "-"}</span>
+                                <span className="historial-card__cantidad">{factura.lineas.length} producto(s)</span>
+                            </button>
+                            <button
+                                type="button"
+                                className="historial-card__borrar"
+                                title="Borrar factura"
+                                onClick={() => onDelete(factura)}
+                            >
+                                Borrar
+                            </button>
+                        </div>
                     ))
                 )}
             </div>

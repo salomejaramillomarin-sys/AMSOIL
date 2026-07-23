@@ -9,7 +9,7 @@ import HistorialView from "../components/principal/HistorialView";
 import AgregarProductoView from "../components/principal/AgregarProductoView";
 import EliminarProductoView from "../components/principal/EliminarProductoView";
 import AjustesView from "../components/principal/AjustesView";
-import { api } from "../api";
+import { api, formatFechaHora } from "../api";
 import { usePageStyles } from "../hooks/usePageStyles";
 
 import principalCssUrl from "../styles/principal.css?url";
@@ -77,6 +77,23 @@ export default function Principal() {
         navigate("/principal?view=productos");
     }
 
+    async function handleFacturaEliminada(factura) {
+        const confirmado = window.confirm(
+            `¿Borrar la factura del ${formatFechaHora(factura.fecha_hora)}? Esta acción no se puede deshacer.`
+        );
+        if (!confirmado) return;
+
+        try {
+            await api.eliminarFactura(factura.id);
+        } catch (e) {
+            alert("No se pudo borrar la factura: " + e.message);
+            return;
+        }
+
+        if (facturaSeleccionada?.id === factura.id) setFacturaSeleccionada(null);
+        await cargarHistorial();
+    }
+
     return (
         <>
             <Navbar active={view} />
@@ -84,7 +101,11 @@ export default function Principal() {
             <main className="page-content">
                 {view === "productos" && <ProductosView productos={productos} />}
                 {view === "historial" && (
-                    <HistorialView facturas={facturas} onSelect={setFacturaSeleccionada} />
+                    <HistorialView
+                        facturas={facturas}
+                        onSelect={setFacturaSeleccionada}
+                        onDelete={handleFacturaEliminada}
+                    />
                 )}
                 {view === "agregar" && <AgregarProductoView onCreated={handleProductoCreado} />}
                 {view === "eliminar" && <EliminarProductoView onDeleted={handleProductoEliminado} />}

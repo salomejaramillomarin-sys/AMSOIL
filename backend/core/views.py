@@ -80,7 +80,7 @@ class FacturaListCreateView(generics.ListCreateAPIView):
         return Response(FacturaSerializer(factura).data, status=status.HTTP_201_CREATED)
 
 
-class FacturaDetailView(generics.RetrieveAPIView):
+class FacturaDetailView(generics.RetrieveDestroyAPIView):
     queryset = Factura.objects.prefetch_related("lineas").all()
     serializer_class = FacturaSerializer
 
