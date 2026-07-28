@@ -1,0 +1,34 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Registro from "./pages/Registro";
+import Principal from "./pages/Principal";
+import CrearFactura from "./pages/CrearFactura";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { DialogProvider } from "./components/DialogProvider";
+
+export default function App() {
+    return (
+        <DialogProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Registro />} />
+                    <Route
+                        path="/principal"
+                        element={
+                            <ProtectedRoute>
+                                <Principal />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/crear-factura"
+                        element={
+                            <ProtectedRoute>
+                                <CrearFactura />
+                            </ProtectedRoute>
+                        }
+                    />
+                </Routes>
+            </BrowserRouter>
+        </DialogProvider>
+    );
+}
